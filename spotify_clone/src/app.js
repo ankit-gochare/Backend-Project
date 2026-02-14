@@ -10,10 +10,12 @@ const userRoutes = require('./routes/user.routes')
 // require musicRoutes for using music Routes
 const musicRoutes = require('./routes/music.routes')
 
+
+const app = express()
+
 app.use(express.json());
 app.use(cookieParser());
 
-const app = express()
 
 // use userRoutes in the end 
 app.use('/api/user' , userRoutes)

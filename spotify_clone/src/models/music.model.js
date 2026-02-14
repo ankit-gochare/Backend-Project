@@ -12,14 +12,14 @@ const musicSchema = new mongoose.Schema({
         required:true
     },
     artist:{
-        type:mongoose.Schema.Types.objectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:"user",
         required:true
     }
 })
 
 // create musicModel
-const musicModel = mongoose.Model("music" , musicSchema)
+const musicModel = mongoose.model("music" , musicSchema)
 
 // export musicModel
 module.exports = musicModel

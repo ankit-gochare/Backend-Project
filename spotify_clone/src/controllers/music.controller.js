@@ -1,5 +1,6 @@
 // for creating logics for different routes for music
 const musicModel = require("../models/music.model")
+const jwt = require("jsonwebtoken")
 
 const {uploadFile}= require('../services/storage.service')
 
@@ -26,7 +27,7 @@ async function createMusic(req,res){
         // if the user is not artist 
         // then return don't have access to create Music
         if(decoded.role !== "artist"){
-            return res.status(403).json({
+            return res.status(401).json({
                 message:"You don't have the acccess to create Music"
             })
         }

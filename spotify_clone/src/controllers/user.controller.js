@@ -3,7 +3,8 @@
 const userModel = require('../models/user.model')
 
 // require bcrypt to hash password
-const bcrypt = require('bcrytjs')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 // registerUser function to create a new user in database 
 // used in the /register route
@@ -31,12 +32,12 @@ async function registerUser(req,res){
     const hashedPassword = await bcrypt.hash(password ,10)
 
     // if user not exists thencreate a new user
-    const user = {
+    const user = await userModel.create({
         username, 
         email,
         password:hashedPassword,
         role,
-    }
+    })
 
     // now create token for the user to login
     const token = jwt.sign({
@@ -84,7 +85,7 @@ async function loginUser(req,res){
     }
 
     // if user exists check if the password is valid or not
-    const isPasswordValid = await bcrypt.verify(password , user.password )
+    const isPasswordValid = await bcrypt.compare(password , user.password )
 
     // if password is not valid return invalid credentials
     if(!isPasswordValid){
@@ -107,7 +108,7 @@ async function loginUser(req,res){
         message:"User logged in successfully",
         user:{
             id:user._id,
-            username:user.usrename,
+            username:user.username,
             email:user.email,
             role:user.role
         }
@@ -116,5 +117,5 @@ async function loginUser(req,res){
 }
 
 
-// exort the function to create routes
+// export the function to create routes
 module.exports = { registerUser , loginUser }
